@@ -55,14 +55,14 @@
     background-color: #eeeeee;
     border-radius: 10px;
     border: 2px solid #a91d3a;
-    max-width: 90vw; /* Limit width to fit within viewport */
-    max-height: 80vh; /* Limit height to fit everything on the screen */
-    overflow: auto; /* Allow overflow if necessary */
+    width: 200px; /* Initial smaller width */
+    height: auto; /* Auto to grow as needed after table creation */
     text-align: center;
     box-shadow: 0 0 5px #a91d3a, 0 0 10px #a91d3a, 0 0 15px #a91d3a;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    transition: width 0.5s ease, height 0.5s ease; /* Smooth transition for resizing */
   }
 
   table {
@@ -71,7 +71,7 @@
     width: auto;
     background-color: #ffffff;
     border-radius: 10px;
-    max-width: 100%; /* Ensure table does not overflow */
+    max-width: 100%;
   }
 
   td {
@@ -123,7 +123,7 @@
   <img id="randomImage" src="" alt="Random image will appear here">
 </div>
 
-<div class="table-container">
+<div class="table-container" id="tableContainer">
   <div class="button-container">
     <button id="create8x8">إنشاء جدول <br>(8x8)</button>
     <button id="create10x10">إنشاء جدول <br>(10x10)</button>
@@ -195,11 +195,22 @@
       }
       enableCells();
       hideTableButtons(); // Hide both buttons after table is created
+      adjustContainerSize(rows, cols); // Adjust container size after table creation
   }
   
   function hideTableButtons() {
       document.getElementById('create8x8').style.display = 'none';
       document.getElementById('create10x10').style.display = 'none';
+  }
+
+  // Adjust the container size based on the table content
+  function adjustContainerSize(rows, cols) {
+    const tableContainer = document.getElementById('tableContainer');
+    const newWidth = cols * 35; // Increase based on columns (including padding/border)
+    const newHeight = rows * 35 + 100; // Increase based on rows (including padding/border)
+    
+    tableContainer.style.width = newWidth + 'px';
+    tableContainer.style.height = newHeight + 'px';
   }
   
   function enableCells() {
