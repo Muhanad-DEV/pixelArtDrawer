@@ -51,11 +51,11 @@
   }
 
   .table-container {
-    padding: 20px;
+    padding: 30px; /* Increased padding */
     background-color: #eeeeee;
     border-radius: 10px;
     border: 2px solid #a91d3a;
-    max-width: 90%;
+    max-width: 1000px; /* Increased max-width */
     overflow-x: auto;
     text-align: center;
     box-shadow: 0 0 5px #a91d3a, 0 0 10px #a91d3a, 0 0 15px #a91d3a;
@@ -139,170 +139,172 @@
   <button id="changeLanguageToArabic" style="display: none;">تغيير اللغة إلى العربية</button>
 </div>
 
+
 <script>
-let countdown;
-let timerStarted = false;
-let timeLeft = 300;  // 5 minutes = 300 seconds
-let currentLang = 'ar';  // Track the current language
-
-const images = [
-    '04dcc3c2a665693.png',
-    '07fd4d1505e5fa4881ed06b878de51ad.jpg',
-    '030ab2a7f627fc46426dabfaa3729c1b.png',
-    '324978899176dd5bd0ea275371079d17.jpg',
-    'c5b8d2a8fbddd1f1eb3e141109286082.png',
-    'capybara small.webp',
-    'xuv4jRQ9nBOTwPDTPR2EwTYcx-77m1kqOqf3ktKb2IKD1uqtCc9Qo0jOYboRmPaPXE1u78P3ZjrrNrss5Pn9JxSpy1w1BfnGgvlUVA.avif',
-    'Screenshot.png'
-];
-
-document.getElementById('showRandomImage').addEventListener('click', function() {
-    const randomImage = images[Math.floor(Math.random() * images.length)];
-    const imgElement = document.getElementById('randomImage');
-    imgElement.src = randomImage;
-    imgElement.style.display = 'block';
-});
-
-function changeColor(cell) {
-    const colorPicker = document.getElementById('colorPicker');
-    cell.style.backgroundColor = colorPicker.value;
-
-    if (!timerStarted) {
-        startTimer();
-        timerStarted = true;
-    }
-}
-
-function createTable(rows, cols) {
-    const matrix = document.getElementById('matrix').querySelector('tbody');
-    matrix.innerHTML = '';
-    for (let i = 0; i < rows; i++) {
-        const row = document.createElement('tr');
-        for (let j = 0; j < cols; j++) {
-            const cell = document.createElement('td');
-            cell.addEventListener('click', function() {
-                changeColor(cell);
-            });
-            row.appendChild(cell);
-        }
-        matrix.appendChild(row);
-    }
-    enableCells();
-    document.getElementById('create8x8').style.display = 'none';
-}
-
-function enableCells() {
-    const cells = document.querySelectorAll('#matrix td');
-    cells.forEach(cell => {
-        cell.classList.add('enabled');
-    });
-}
-
-document.getElementById('applyColor').addEventListener('click', function() {
-    const selectedColor = document.getElementById('colorPicker').value;
-    const cells = document.querySelectorAll('#matrix td');
-    cells.forEach(cell => {
-        cell.style.backgroundColor = selectedColor;
-    });
-});
-
-document.getElementById('create8x8').addEventListener('click', function() {
-    createTable(8, 8);
-    resetTimer();
-});
-
-function startTimer() {
-    const timerDisplay = document.getElementById('timer');
-    updateTimerDisplay(); // Update timer display according to the current language
-
-    countdown = setInterval(function() {
-        timeLeft--;
-        updateTimerDisplay();
-
-        if (timeLeft <= 0) {
-            clearInterval(countdown);
-            timerDisplay.textContent = (currentLang === 'ar') ? "انتهى الوقت!" : "Time's Up!";
-            disableCells();
-        }
-    }, 1000);
-}
-
-function resetTimer() {
-    clearInterval(countdown);
-    timerStarted = false;
-    timeLeft = 300;  // Reset to 5 minutes
-    updateTimerDisplay();
-}
-
-function updateTimerDisplay() {
-    const timerDisplay = document.getElementById('timer');
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    const label = (currentLang === 'ar') ? "الوقت المتبقي: " : "Time Left: ";
-    timerDisplay.textContent = label + formattedTime;
-}
-
-function disableCells() {
-    const cells = document.querySelectorAll('#matrix td');
-    cells.forEach(cell => {
-        cell.classList.remove('enabled');
-        cell.style.pointerEvents = 'none';
-    });
-}
-
-// Language translation data
-const translations = {
-  en: {
-    tableTitle: "Select Table Size",
-    createTable: "Create Table (8x8)",
-    applyColor: "Apply Color",
-    showRandomImage: "Show Random Image",
-    timer: "Time Left: ",
-    changeLanguageToEnglish: "Switch to Arabic",
-    changeLanguageToArabic: "Switch to English",
-    timesUp: "Time's Up!"
-  },
-  ar: {
-    tableTitle: "اختر حجم الجدول",
-    createTable: "إنشاء جدول <br>(8x8)",
-    applyColor: "تطبيق اللون على الخلفية",
-    showRandomImage: "عرض صورة عشوائية",
-    timer: "الوقت المتبقي: ",
-    changeLanguageToEnglish: "تغيير اللغة إلى الإنجليزية",
-    changeLanguageToArabic: "تغيير اللغة إلى العربية",
-    timesUp: "انتهى الوقت!"
-  }
-};
-
-// Change language function
-function switchLanguage(lang) {
-  currentLang = lang;  // Set the current language
-
-  document.getElementById('tableTitle').innerHTML = translations[lang].tableTitle;
-  document.getElementById('create8x8').innerHTML = translations[lang].createTable;
-  document.getElementById('applyColor').textContent = translations[lang].applyColor;
-  document.getElementById('showRandomImage').textContent = translations[lang].showRandomImage;
-  document.getElementById('changeLanguageToEnglish').textContent = translations[lang].changeLanguageToEnglish;
-  document.getElementById('changeLanguageToArabic').textContent = translations[lang].changeLanguageToArabic;
+  let countdown;
+  let timerStarted = false;
+  let timeLeft = 300;  // 5 minutes = 300 seconds
+  let currentLang = 'ar';  // Track the current language
   
-  // Update the timer display according to the new language
-  updateTimerDisplay();
-}
+  const images = [
+      '04dcc3c2a665693.png',
+      '07fd4d1505e5fa4881ed06b878de51ad.jpg',
+      '030ab2a7f627fc46426dabfaa3729c1b.png',
+      '324978899176dd5bd0ea275371079d17.jpg',
+      'c5b8d2a8fbddd1f1eb3e141109286082.png',
+      'capybara small.webp',
+      'xuv4jRQ9nBOTwPDTPR2EwTYcx-77m1kqOqf3ktKb2IKD1uqtCc9Qo0jOYboRmPaPXE1u78P3ZjrrNrss5Pn9JxSpy1w1BfnGgvlUVA.avif',
+      'Screenshot.png'
+  ];
+  
+  document.getElementById('showRandomImage').addEventListener('click', function() {
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+      const imgElement = document.getElementById('randomImage');
+      imgElement.src = randomImage;
+      imgElement.style.display = 'block';
+  });
+  
+  function changeColor(cell) {
+      const colorPicker = document.getElementById('colorPicker');
+      cell.style.backgroundColor = colorPicker.value;
+  
+      if (!timerStarted) {
+          startTimer();
+          timerStarted = true;
+      }
+  }
+  
+  function createTable(rows, cols) {
+      const matrix = document.getElementById('matrix').querySelector('tbody');
+      matrix.innerHTML = '';
+      for (let i = 0; i < rows; i++) {
+          const row = document.createElement('tr');
+          for (let j = 0; j < cols; j++) {
+              const cell = document.createElement('td');
+              cell.addEventListener('click', function() {
+                  changeColor(cell);
+              });
+              row.appendChild(cell);
+          }
+          matrix.appendChild(row);
+      }
+      enableCells();
+      document.getElementById('create8x8').style.display = 'none';
+  }
+  
+  function enableCells() {
+      const cells = document.querySelectorAll('#matrix td');
+      cells.forEach(cell => {
+          cell.classList.add('enabled');
+      });
+  }
+  
+  document.getElementById('applyColor').addEventListener('click', function() {
+      const selectedColor = document.getElementById('colorPicker').value;
+      const cells = document.querySelectorAll('#matrix td');
+      cells.forEach(cell => {
+          cell.style.backgroundColor = selectedColor;
+      });
+  });
+  
+  document.getElementById('create8x8').addEventListener('click', function() {
+      createTable(8, 8);
+      resetTimer();
+  });
+  
+  function startTimer() {
+      const timerDisplay = document.getElementById('timer');
+      updateTimerDisplay(); // Update timer display according to the current language
+  
+      countdown = setInterval(function() {
+          timeLeft--;
+          updateTimerDisplay();
+  
+          if (timeLeft <= 0) {
+              clearInterval(countdown);
+              timerDisplay.textContent = (currentLang === 'ar') ? "انتهى الوقت!" : "Time's Up!";
+              disableCells();
+          }
+      }, 1000);
+  }
+  
+  function resetTimer() {
+      clearInterval(countdown);
+      timerStarted = false;
+      timeLeft = 300;  // Reset to 5 minutes
+      updateTimerDisplay();
+  }
+  
+  function updateTimerDisplay() {
+      const timerDisplay = document.getElementById('timer');
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      const label = (currentLang === 'ar') ? "الوقت المتبقي: " : "Time Left: ";
+      timerDisplay.textContent = label + formattedTime;
+  }
+  
+  function disableCells() {
+      const cells = document.querySelectorAll('#matrix td');
+      cells.forEach(cell => {
+          cell.classList.remove('enabled');
+          cell.style.pointerEvents = 'none';
+      });
+  }
+  
+  // Language translation data
+  const translations = {
+    en: {
+      tableTitle: "Select Table Size",
+      createTable: "Create Table (8x8)",
+      applyColor: "Apply Color",
+      showRandomImage: "Show Random Image",
+      timer: "Time Left: ",
+      changeLanguageToEnglish: "Switch to Arabic",
+      changeLanguageToArabic: "Switch to English",
+      timesUp: "Time's Up!"
+    },
+    ar: {
+      tableTitle: "اختر حجم الجدول",
+      createTable: "إنشاء جدول <br>(8x8)",
+      applyColor: "تطبيق اللون على الخلفية",
+      showRandomImage: "عرض صورة عشوائية",
+      timer: "الوقت المتبقي: ",
+      changeLanguageToEnglish: "تغيير اللغة إلى الإنجليزية",
+      changeLanguageToArabic: "تغيير اللغة إلى العربية",
+      timesUp: "انتهى الوقت!"
+    }
+  };
+  
+  // Change language function
+  function switchLanguage(lang) {
+    currentLang = lang;  // Set the current language
+  
+    document.getElementById('tableTitle').innerHTML = translations[lang].tableTitle;
+    document.getElementById('create8x8').innerHTML = translations[lang].createTable;
+    document.getElementById('applyColor').textContent = translations[lang].applyColor;
+    document.getElementById('showRandomImage').textContent = translations[lang].showRandomImage;
+    document.getElementById('changeLanguageToEnglish').textContent = translations[lang].changeLanguageToEnglish;
+    document.getElementById('changeLanguageToArabic').textContent = translations[lang].changeLanguageToArabic;
+    
+    // Update the timer display according to the new language
+    updateTimerDisplay();
+  }
+  
+  // Event listener for language switching
+  document.getElementById('changeLanguageToArabic').addEventListener('click', function() {
+      switchLanguage('ar');
+      document.getElementById('changeLanguageToArabic').style.display = 'none';
+      document.getElementById('changeLanguageToEnglish').style.display = 'inline-block';
+  });
+  
+  document.getElementById('changeLanguageToEnglish').addEventListener('click', function() {
+      switchLanguage('en');
+      document.getElementById('changeLanguageToEnglish').style.display = 'none';
+      document.getElementById('changeLanguageToArabic').style.display = 'inline-block';
+  });
+  </script>
 
-// Event listener for language switching
-document.getElementById('changeLanguageToArabic').addEventListener('click', function() {
-    switchLanguage('ar');
-    document.getElementById('changeLanguageToArabic').style.display = 'none';
-    document.getElementById('changeLanguageToEnglish').style.display = 'inline-block';
-});
-
-document.getElementById('changeLanguageToEnglish').addEventListener('click', function() {
-    switchLanguage('en');
-    document.getElementById('changeLanguageToEnglish').style.display = 'none';
-    document.getElementById('changeLanguageToArabic').style.display = 'inline-block';
-});
-</script>
-
+  
 </body>
 </html>
