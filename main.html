@@ -142,6 +142,8 @@
 <script>
 let countdown;
 let timerStarted = false;
+let timeLeft = 90;  // Global time tracker
+let currentLang = 'ar';  // Track the current language
 
 const images = [
     '04dcc3c2a665693.png',
@@ -210,17 +212,16 @@ document.getElementById('create8x8').addEventListener('click', function() {
 });
 
 function startTimer() {
-    let timeLeft = 90;
     const timerDisplay = document.getElementById('timer');
-    timerDisplay.textContent = `الوقت المتبقي: ${timeLeft}`;
+    updateTimerDisplay(); // Update timer display according to the current language
 
     countdown = setInterval(function() {
         timeLeft--;
-        timerDisplay.textContent = `الوقت المتبقي: ${timeLeft}`;
+        updateTimerDisplay();
 
         if (timeLeft <= 0) {
             clearInterval(countdown);
-            timerDisplay.textContent = "انتهى الوقت!";
+            timerDisplay.textContent = (currentLang === 'ar') ? "انتهى الوقت!" : "Time's Up!";
             disableCells();
         }
     }, 1000);
@@ -229,7 +230,14 @@ function startTimer() {
 function resetTimer() {
     clearInterval(countdown);
     timerStarted = false;
-    document.getElementById('timer').textContent = "الوقت المتبقي: 90";
+    timeLeft = 90;
+    updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+    const timerDisplay = document.getElementById('timer');
+    const label = (currentLang === 'ar') ? "الوقت المتبقي: " : "Time Left: ";
+    timerDisplay.textContent = label + timeLeft;
 }
 
 function disableCells() {
@@ -249,7 +257,7 @@ const translations = {
     showRandomImage: "Show Random Image",
     timer: "Time Left: ",
     changeLanguageToEnglish: "Switch to Arabic",
-    changeLanguageToArabic: "Switch to Arabic",
+    changeLanguageToArabic: "Switch to English",
     timesUp: "Time's Up!"
   },
   ar: {
@@ -266,13 +274,17 @@ const translations = {
 
 // Change language function
 function switchLanguage(lang) {
+  currentLang = lang;  // Set the current language
+
   document.getElementById('tableTitle').innerHTML = translations[lang].tableTitle;
   document.getElementById('create8x8').innerHTML = translations[lang].createTable;
   document.getElementById('applyColor').textContent = translations[lang].applyColor;
   document.getElementById('showRandomImage').textContent = translations[lang].showRandomImage;
   document.getElementById('changeLanguageToEnglish').textContent = translations[lang].changeLanguageToEnglish;
   document.getElementById('changeLanguageToArabic').textContent = translations[lang].changeLanguageToArabic;
-  document.getElementById('timer').textContent = translations[lang].timer + "90";
+  
+  // Update the timer display according to the new language
+  updateTimerDisplay();
 }
 
 // Event listener for language switching
