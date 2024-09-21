@@ -111,7 +111,7 @@
 <body>
 
 <h2 id="tableTitle">اختر حجم الجدول</h2>
-<div id="timer">الوقت المتبقي: 90</div>
+<div id="timer">الوقت المتبقي: 5:00</div>
 
 <div class="button-container">
   <button id="showRandomImage">عرض صورة عشوائية</button>
@@ -142,7 +142,7 @@
 <script>
 let countdown;
 let timerStarted = false;
-let timeLeft = 90;  // Global time tracker
+let timeLeft = 300;  // 5 minutes = 300 seconds
 let currentLang = 'ar';  // Track the current language
 
 const images = [
@@ -152,7 +152,7 @@ const images = [
     '324978899176dd5bd0ea275371079d17.jpg',
     'c5b8d2a8fbddd1f1eb3e141109286082.png',
     'capybara small.webp',
-    'xuv4jRQ9nBOTwPDTPR2EwTYcx-77m1kqOqf3ktKb2IKD1uqtCc9Qo0jOYboRmPaPXE1u78P3ZjrrNrss5Pn9JxSpy1w1BfnGgvlUVA.png',
+    'xuv4jRQ9nBOTwPDTPR2EwTYcx-77m1kqOqf3ktKb2IKD1uqtCc9Qo0jOYboRmPaPXE1u78P3ZjrrNrss5Pn9JxSpy1w1BfnGgvlUVA.avif',
     'Screenshot.png'
 ];
 
@@ -230,14 +230,17 @@ function startTimer() {
 function resetTimer() {
     clearInterval(countdown);
     timerStarted = false;
-    timeLeft = 90;
+    timeLeft = 300;  // Reset to 5 minutes
     updateTimerDisplay();
 }
 
 function updateTimerDisplay() {
     const timerDisplay = document.getElementById('timer');
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     const label = (currentLang === 'ar') ? "الوقت المتبقي: " : "Time Left: ";
-    timerDisplay.textContent = label + timeLeft;
+    timerDisplay.textContent = label + formattedTime;
 }
 
 function disableCells() {
