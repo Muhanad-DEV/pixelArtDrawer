@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>pixel Art Drawer</title>
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="icon" type="image/png" href="DALL·E 2024-09-22 02.44.36 - A highly detailed black and white recreation of a logo resembling a rounded rectangle screen with two square eyes and a smiling face beneath. The logo.png">
 <style>
   body {
     display: flex;
@@ -112,9 +112,45 @@
     display: none;
   }
 
+
+  .myalert {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: right;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    .myalert button {
+        margin-top: 20px;
+        background-color: #000000;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+
 </style>
 </head>
 <body>
+
+
+  
+<div class="myalert" id="idalert">
+<p>مرحبًا بك في ركن مجموعة علوم الحاسب الالي نورتنا 🌟. <br> استمتع 💫</p>
+<button onclick="closingg()">إغلاق</button>
+</div>
+
+<script>
+function closingg() {
+document.getElementById("idalert").style.display = "none";
+}
+</script>
+  
 
 <h2 id="tableTitle">اختر حجم الجدول</h2>
 <div id="timer">الوقت المتبقي: 5:00</div>
